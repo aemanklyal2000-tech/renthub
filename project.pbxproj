@@ -1,0 +1,65 @@
+// !$*UTF8*$!
+{
+    archiveVersion = 1;
+    classes = {};
+    objectVersion = 56;
+    objects = {
+        3181DCE6B36443C78D45B529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F682BEDD49F042E8979AECAE /* AppDelegate.swift */; };
+        D2A050884C72460A9DCFAF70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCD2816DD274F19B757138C /* SceneDelegate.swift */; };
+        6676BF3099FB4371ABCC0C0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78929136859F40EF9DF8CC82 /* ViewController.swift */; };
+        46F02E1E1C10460ABB896D5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F4426356EA44ADD89E7E6E1 /* LaunchScreen.storyboard */; };
+        9A762FE4F0154AC5A16EF71B /* cordova.js in Resources */ = {isa = PBXBuildFile; fileRef = 1D6DAE83CAC9484DA7B6D9B6 /* cordova.js */; };
+        B1158306F5D24F4188867D0B /* cordova_plugins.js in Resources */ = {isa = PBXBuildFile; fileRef = 48290654755347BA8C10A1ED /* cordova_plugins.js */; };
+        4318EB9816BE4BEABF031212 /* favicon.svg in Resources */ = {isa = PBXBuildFile; fileRef = A68E5767BDDD40A4A260B289 /* favicon.svg */; };
+        398D4830E3E644838956ECE5 /* icons.svg in Resources */ = {isa = PBXBuildFile; fileRef = FBE4B83DD9DE42F09C547050 /* icons.svg */; };
+        7F903B39D1444F68937E92ED /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = BF4D3C5BD6774357A40834A3 /* index.html */; };
+        F682BEDD49F042E8979AECAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate.swift"; sourceTree = "<group>"; };
+        3FCD2816DD274F19B757138C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate.swift"; sourceTree = "<group>"; };
+        78929136859F40EF9DF8CC82 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController.swift"; sourceTree = "<group>"; };
+        8B6D749C530C430C912F04FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };
+        5F4426356EA44ADD89E7E6E1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
+        1D6DAE83CAC9484DA7B6D9B6 /* cordova.js */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Resources/www/cordova.js"; sourceTree = "<group>"; };
+        48290654755347BA8C10A1ED /* cordova_plugins.js */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Resources/www/cordova_plugins.js"; sourceTree = "<group>"; };
+        A68E5767BDDD40A4A260B289 /* favicon.svg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Resources/www/favicon.svg"; sourceTree = "<group>"; };
+        FBE4B83DD9DE42F09C547050 /* icons.svg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Resources/www/icons.svg"; sourceTree = "<group>"; };
+        BF4D3C5BD6774357A40834A3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "Resources/www/index.html"; sourceTree = "<group>"; };
+        E5C13A296997452FA7DACCCA /* RentHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RentHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+        02A38377C00D47148B1526C0 = {isa = PBXGroup; children = (
+                F682BEDD49F042E8979AECAE /* AppDelegate.swift */,
+                3FCD2816DD274F19B757138C /* SceneDelegate.swift */,
+                78929136859F40EF9DF8CC82 /* ViewController.swift */,
+                8B6D749C530C430C912F04FD /* Info.plist */,
+                5F4426356EA44ADD89E7E6E1 /* LaunchScreen.storyboard */,
+                1D6DAE83CAC9484DA7B6D9B6 /* cordova.js */,
+                48290654755347BA8C10A1ED /* cordova_plugins.js */,
+                A68E5767BDDD40A4A260B289 /* favicon.svg */,
+                FBE4B83DD9DE42F09C547050 /* icons.svg */,
+                BF4D3C5BD6774357A40834A3 /* index.html */,
+                8098094B89914CFB9727B6C3 /* Products */,
+            ); path = RentHub; sourceTree = "<group>"; };
+        8098094B89914CFB9727B6C3 /* Products */ = {isa = PBXGroup; children = (E5C13A296997452FA7DACCCA /* RentHub.app */,); name = Products; sourceTree = "<group>"; };
+        84C9C927102E480483E897AE = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+                3181DCE6B36443C78D45B529 /* AppDelegate.swift in Sources */,
+                D2A050884C72460A9DCFAF70 /* SceneDelegate.swift in Sources */,
+                6676BF3099FB4371ABCC0C0D /* ViewController.swift in Sources */,
+            ); runOnlyForDeploymentPostprocessing = 0; };
+        1DEC80AD8FF34D36AD9E289E = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+                46F02E1E1C10460ABB896D5D /* LaunchScreen.storyboard in Resources */,
+                9A762FE4F0154AC5A16EF71B /* cordova.js in Resources */,
+                B1158306F5D24F4188867D0B /* cordova_plugins.js in Resources */,
+                4318EB9816BE4BEABF031212 /* favicon.svg in Resources */,
+                398D4830E3E644838956ECE5 /* icons.svg in Resources */,
+                7F903B39D1444F68937E92ED /* index.html in Resources */,
+            ); runOnlyForDeploymentPostprocessing = 0; };
+        D3B0A2ABBF694C1D95C25448 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+        455D9E1D38894AC8ADBBCCD5 = {isa = PBXNativeTarget; buildConfigurationList = 13C106F8FA7D43738CE1F05A; buildPhases = (84C9C927102E480483E897AE,D3B0A2ABBF694C1D95C25448,1DEC80AD8FF34D36AD9E289E,); buildRules = (); dependencies = (); name = RentHub; productName = RentHub; productReference = E5C13A296997452FA7DACCCA; productType = "com.apple.product-type.application"; };
+        0D45B676EAE64FEB99877F7B = {isa = PBXProject; attributes = {LastSwiftUpdateCheck = 1500; LastUpgradeCheck = 1500; TargetAttributes = {455D9E1D38894AC8ADBBCCD5 = {CreatedOnToolsVersion = 15.0;};};}; buildConfigurationList = CE814DAEA2C741F88FA0A9A5; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = 02A38377C00D47148B1526C0; productRefGroup = 8098094B89914CFB9727B6C3; projectDirPath = ""; projectRoot = ""; targets = (455D9E1D38894AC8ADBBCCD5,); };
+        CE814DAEA2C741F88FA0A9A5 = {isa = XCConfigurationList; buildConfigurations = (DDF5C8405FC3464A83CA986A,9BC9E099F26145199094F5EC,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+        13C106F8FA7D43738CE1F05A = {isa = XCConfigurationList; buildConfigurations = (6FEEC65D230342B9A94168C4,1D1C5B294CFC4324AB717DA4,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+        DDF5C8405FC3464A83CA986A = {isa = XCBuildConfiguration; buildSettings = {IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;}; name = Debug; };
+        9BC9E099F26145199094F5EC = {isa = XCBuildConfiguration; buildSettings = {IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;}; name = Release; };
+        6FEEC65D230342B9A94168C4 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; INFOPLIST_FILE = RentHub/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = com.renthub.app; PRODUCT_NAME = RentHub; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1;}; name = Debug; };
+        1D1C5B294CFC4324AB717DA4 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; INFOPLIST_FILE = RentHub/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = com.renthub.app; PRODUCT_NAME = RentHub; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1;}; name = Release; };
+    };
+    rootObject = 0D45B676EAE64FEB99877F7B;
+}

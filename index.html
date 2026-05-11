@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentHub Ultimate</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root{
+  --primary:#0f766e;--primary2:#14b8a6;--bg:#f8fafc;--card:#fff;
+  --text:#0f172a;--muted:#64748b;--line:#e2e8f0;--danger:#ef4444;
+  --shadow:0 24px 60px rgba(15,23,42,.13)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Inter,sans-serif;background:radial-gradient(circle at 10% 10%,#bdf8ef,transparent 25%),#e9f3f1;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px
+}
+body.dark{--bg:#020617;--card:#0f172a;--text:#f8fafc;--muted:#94a3b8;--line:#1e293b;background:#020617}
+button,input,textarea,select{font-family:inherit}
+button{border:0;cursor:pointer}
+.hidden{display:none!important}
+.app{
+  width:410px;height:880px;background:var(--bg);border:9px solid #111827;border-radius:44px;
+  overflow:hidden;position:relative;box-shadow:0 45px 100px #0005;color:var(--text)
+}
+.page{height:100%;padding-bottom:86px}
+.status{height:36px;padding:12px 22px 0;display:flex;justify-content:space-between;font-size:12px;font-weight:800}
+.header{
+  background:linear-gradient(135deg,#134e4a,#0f766e,#14b8a6);color:#fff;
+  padding:18px 20px 32px;border-radius:0 0 36px 36px;position:relative;overflow:hidden
+}
+.header:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:#fff2;right:-90px;top:-120px}
+.row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.icon-btn{width:44px;height:44px;border-radius:16px;background:#ffffff2e;color:#fff;font-size:18px}
+.avatar,.big-avatar,.owner-img{
+  background:url("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80") center/cover
+}
+.avatar{width:58px;height:58px;border-radius:50%;border:3px solid #ffffffe6}
+.welcome{text-align:right}.welcome h1{font-size:28px;font-weight:900;line-height:1.05}.welcome p{font-size:13px;margin-top:6px;opacity:.9}
+.search{margin-top:22px;height:56px;background:#fff;border-radius:19px;display:flex;align-items:center;gap:10px;padding:0 16px;box-shadow:0 18px 36px #0002;position:relative;z-index:2}
+.search input{width:100%;border:0;outline:0;font-size:14px}
+.content{height:calc(100% - 196px);overflow:auto;padding:18px}.content::-webkit-scrollbar,.categories::-webkit-scrollbar,.gallery::-webkit-scrollbar{display:none}
+.banner{padding:22px;border-radius:32px;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;margin:10px 0 20px;box-shadow:0 20px 45px rgba(15,118,110,.28)}
+.banner h2{font-size:28px;line-height:1.05}.banner p{font-size:13px;line-height:1.6;margin-top:10px}.banner button{margin-top:16px;height:44px;border-radius:15px;padding:0 18px;background:#fff;color:var(--primary);font-weight:900}
+.section{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.section h3{font-size:19px;font-weight:900}.section span{font-size:13px;color:var(--primary);font-weight:900}
+.categories{display:flex;gap:10px;overflow:auto;padding-bottom:10px}
+.category{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:22px;padding:14px 12px;min-width:95px;text-align:center;font-weight:900;box-shadow:0 10px 20px #0f172a0d;transition:.25s}
+.category.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;transform:translateY(-3px)}.category i{font-size:27px}.category p{font-size:12px;margin-top:9px}
+.card{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:30px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow);transition:.25s}
+.card:hover{transform:translateY(-5px)}
+.card-img{height:184px;background-size:cover;background-position:center;position:relative}
+.card-img:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#0009,transparent 60%)}
+.badge{position:absolute;top:14px;left:14px;z-index:2;padding:8px 12px;border-radius:999px;background:#fffffff0;color:var(--primary);font-size:12px;font-weight:900}
+.favorite{position:absolute;top:14px;right:14px;z-index:2;width:42px;height:42px;border-radius:50%;background:#fff;color:#ef4444;font-size:18px}
+.card-body{padding:16px}.top{display:flex;justify-content:space-between;gap:12px}.top h4{font-size:18px;font-weight:900}.top p{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+.price{color:var(--primary);font-weight:900;font-size:22px;white-space:nowrap}
+.info{margin-top:14px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:800}
+.actions{margin-top:16px;display:flex;gap:10px}.btn{flex:1;height:45px;border-radius:16px;font-weight:900;transition:.2s}button:active{transform:scale(.96)}
+.btn-view{background:#ccfbf1;color:var(--primary)}.btn-book{background:linear-gradient(135deg,var(--primary),#134e4a);color:#fff}.btn-red{background:var(--danger);color:#fff}.btn-dark{background:#334155;color:#fff}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:86px;display:flex;justify-content:space-around;align-items:center;background:#fffffff0;backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
+body.dark .bottom-nav{background:#0f172af0}.nav-btn{background:transparent;color:#64748b;font-size:11px;font-weight:900}.nav-btn.active{color:var(--primary)}.nav-btn i{display:block;font-size:22px;margin-bottom:5px}
+.fab{position:absolute;right:22px;bottom:102px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;font-size:24px;box-shadow:0 18px 36px rgba(15,118,110,.35);z-index:25}
+.detail-hero{height:320px;background-size:cover;background-position:center;position:relative}.back{position:absolute;top:18px;left:18px;z-index:2;width:44px;height:44px;border-radius:16px;background:white;font-size:24px}
+.gallery{position:absolute;bottom:18px;left:18px;right:18px;display:flex;gap:8px;overflow:auto;z-index:3}.thumb{min-width:72px;height:56px;border-radius:14px;background-size:cover;background-position:center;border:2px solid white}
+.detail-panel{height:calc(100% - 285px);margin-top:-36px;background:var(--card);color:var(--text);border-radius:34px 34px 0 0;position:relative;z-index:4;padding:22px;overflow:auto}.detail-panel::-webkit-scrollbar{display:none}
+.tags{display:flex;gap:8px;flex-wrap:wrap}.tag{background:#dcfce7;color:#166534;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:900}
+.detail-panel h2{font-size:30px;margin-top:16px}.desc{font-size:14px;line-height:1.7;color:var(--muted);margin-top:10px}.detail-price{font-size:30px;color:var(--primary);font-weight:900;margin-top:16px}
+.owner{display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:20px;margin-top:16px}.owner-img{width:52px;height:52px;border-radius:50%}
+.box{min-height:56px;border:1px solid var(--line);border-radius:18px;margin-top:12px;padding:0 16px;display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.full-btn{width:100%;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--primary),#134e4a);color:#fff;font-size:16px;font-weight:900;margin-top:18px}
+.profile-card,.form,.empty{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:30px;margin:18px;padding:22px;box-shadow:var(--shadow)}.empty{text-align:center;color:var(--muted);font-weight:900}
+.big-avatar{width:92px;height:92px;border-radius:50%;margin:auto}.profile-card{text-align:center}.profile-card h2{margin-top:14px}.profile-card p{color:var(--muted);margin-top:6px}
+.stats{display:flex;justify-content:space-around;margin-top:18px}.stats b{font-size:22px}.stats span{display:block;font-size:12px;color:var(--muted);margin-top:5px}
+.menu{background:var(--card);border:1px solid var(--line);border-radius:28px;margin:18px;overflow:hidden;box-shadow:var(--shadow)}.menu-item{height:62px;padding:0 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);font-weight:800;color:var(--text)}
+.input,select,textarea{width:100%;height:54px;border:1px solid var(--line);border-radius:17px;padding:0 14px;margin-bottom:12px;background:transparent;color:var(--text);outline:0}textarea.input{height:90px;padding-top:14px;resize:none}
+.checkout-card{background:linear-gradient(135deg,#111827,#334155);color:white;border-radius:28px;padding:22px;margin-bottom:16px}.payment-option{height:56px;border:1px solid var(--line);border-radius:17px;padding:0 16px;display:flex;align-items:center;gap:12px;margin-top:10px;font-weight:900}.payment-option.active{border-color:var(--primary);background:#ccfbf1;color:var(--primary)}
+.map{height:160px;border-radius:24px;overflow:hidden;margin-top:16px;border:1px solid var(--line)}
+.chat-box{height:540px;overflow:auto;padding:18px}.message{max-width:75%;padding:12px 14px;border-radius:18px;margin-bottom:12px;font-size:14px;line-height:1.45}.me{background:var(--primary);color:#fff;margin-left:auto;border-bottom-right-radius:4px}.other{background:var(--card);color:var(--text);border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat-input{position:absolute;left:18px;right:18px;bottom:100px;display:flex;gap:8px}.chat-input input{flex:1;height:50px;border-radius:16px;border:1px solid var(--line);padding:0 14px;outline:0}.chat-input button{width:50px;height:50px;border-radius:16px;background:var(--primary);color:#fff}
+.splash,.onboarding{position:absolute;inset:0;background:linear-gradient(135deg,#134e4a,#14b8a6);z-index:200;color:white;display:grid;place-items:center;text-align:center;padding:32px}.logo-bubble{width:96px;height:96px;border-radius:30px;margin:auto;display:grid;place-items:center;background:#ffffff2e;font-size:42px;animation:pulse 1.4s infinite}@keyframes pulse{50%{transform:scale(1.08)}}.loader{margin:22px auto 0;width:42px;height:42px;border:4px solid #ffffff59;border-top-color:white;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.skeleton{height:260px;border-radius:30px;margin-bottom:18px;background:linear-gradient(90deg,#e2e8f0 25%,#f8fafc 50%,#e2e8f0 75%);background-size:200% 100%;animation:loading 1s infinite}@keyframes loading{to{background-position:-200% 0}}
+.chart{height:10px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin-top:8px}.bar{height:100%;background:linear-gradient(135deg,var(--primary),var(--primary2))}
+.toast{position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#134e4a;color:white;padding:14px 18px;border-radius:16px;display:none;z-index:999;font-weight:900}
+</style>
+</head>
+
+<body>
+<div class="toast" id="toast">Done</div>
+
+<div class="app">
+
+<div class="splash" id="splash">
+  <div>
+    <div class="logo-bubble"><i class="fa-solid fa-location-dot"></i></div>
+    <h1 style="margin-top:18px">RentHub</h1>
+    <p style="opacity:.9;margin-top:6px">Startup Marketplace</p>
+    <div class="loader"></div>
+  </div>
+</div>
+
+<div class="onboarding hidden" id="onboarding">
+  <div>
+    <div class="logo-bubble"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+    <h1 style="margin-top:20px">Rent equipment without buying it</h1>
+    <p style="margin-top:12px;line-height:1.6;opacity:.9">Tools, cameras, camping gear, payments, wallet, admin, analytics, and AI search.</p>
+    <button class="full-btn" style="background:white;color:#0f766e;margin-top:28px" onclick="finishOnboarding()">Get Started</button>
+  </div>
+</div>
+
+<section id="home" class="page">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header">
+    <div class="row">
+      <div class="avatar"></div>
+      <button class="icon-btn" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i></button>
+      <div class="welcome"><h1>Welcome,<br>Ahmed!</h1><p id="roleLabel">Renter Mode</p></div>
+    </div>
+    <div class="search">
+      <i class="fa-solid fa-magnifying-glass" style="color:#64748b"></i>
+      <input id="searchInput" oninput="smartSearch()" placeholder="Try: camera for wedding, drill, camping...">
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="banner">
+      <h2>Rent smarter.<br>Save more.</h2>
+      <p>AI search, verified owners, secure checkout, wallet, admin dashboard, reviews, and nearby products.</p>
+      <button onclick="exploreNow()">Explore Now</button>
+    </div>
+
+    <div class="section"><h3>Categories</h3><span onclick="setCategory('All')">View all</span></div>
+    <div class="categories" id="categoriesContainer"></div>
+
+    <div class="section"><h3>Popular Rentals</h3><span onclick="simulateRefresh()">Refresh</span></div>
+    <div id="productsContainer"></div>
+  </div>
+
+  <button class="fab" onclick="showPage('addProduct')"><i class="fa-solid fa-plus"></i></button>
+</section>
+
+<section id="details" class="page hidden">
+  <div class="detail-hero" id="detailImg">
+    <button class="back" onclick="showPage('home')">‹</button>
+    <div class="gallery" id="gallery"></div>
+  </div>
+  <div class="detail-panel">
+    <div class="tags"><span class="tag">✓ Verified</span><span class="tag">✓ Delivery</span><span class="tag">✓ Insurance</span></div>
+    <h2 id="detailName"></h2>
+    <p class="desc" id="detailDesc"></p>
+    <div class="detail-price" id="detailPrice"></div>
+
+    <div class="owner">
+      <div class="owner-img"></div>
+      <div><b>Ahmed Khaled</b><p style="color:var(--muted);font-size:12px;margin-top:3px">⭐ 4.9 · 122 rentals · Verified owner</p></div>
+    </div>
+
+    <div class="box"><span>📅 From</span><span>May 25</span></div>
+    <div class="box"><span>📅 To</span><span>May 27</span></div>
+    <div class="box"><span>Total for 2 days</span><span id="detailTotal"></span></div>
+
+    <div class="map">
+      <iframe width="100%" height="100%" style="border:0" src="https://maps.google.com/maps?q=Amman%20Jordan&t=&z=12&ie=UTF8&iwloc=&output=embed"></iframe>
+    </div>
+
+    <div class="section"><h3>Reviews</h3><span>4.9</span></div>
+    <div class="box"><span>⭐ Great quality and fast delivery.</span></div>
+    <div class="box"><span>⭐ Owner was very helpful.</span></div>
+
+    <div class="section"><h3>Similar Products</h3><span>AI</span></div>
+    <div id="similarList"></div>
+
+    <button class="full-btn" onclick="checkAvailability()">Check Availability</button>
+    <button class="full-btn" onclick="showPage('checkout')">Continue to Checkout</button>
+    <button class="full-btn" onclick="showPage('chat')" style="background:#334155">Chat with Owner</button>
+  </div>
+</section>
+
+<section id="checkout" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><div class="row"><button class="icon-btn" onclick="showPage('details')">‹</button><h2>Checkout</h2><span></span></div></div>
+  <div class="content">
+    <div class="checkout-card"><p style="opacity:.8">WALLET BALANCE</p><h2 style="margin-top:20px" id="walletBalance">120 JD</h2><p style="margin-top:20px">Ahmed Khaled</p></div>
+    <div class="card"><div class="card-body">
+      <input class="input" id="promoInput" placeholder="Promo code: RENT10">
+      <button class="btn btn-view" style="width:100%;margin-bottom:12px" onclick="applyPromo()">Apply Promo</button>
+      <div class="payment-option active" onclick="selectPayment(this,'Visa')">💳 Visa Card</div>
+      <div class="payment-option" onclick="selectPayment(this,'Cash')">💵 Cash on Delivery</div>
+      <div class="payment-option" onclick="selectPayment(this,'CliQ')">📱 CliQ Payment</div>
+      <div class="payment-option" onclick="selectPayment(this,'Wallet')">👛 Wallet</div>
+      <div class="box"><span>Rental Days</span><span>2 Days</span></div>
+      <div class="box"><span>Insurance</span><span>2 JD</span></div>
+      <div class="box"><span>Delivery</span><span>3 JD</span></div>
+      <div class="box"><span>Discount</span><span id="discountValue">0 JD</span></div>
+      <div class="box"><span>Total</span><span id="checkoutTotal">0 JD</span></div>
+      <button class="full-btn" onclick="showOtp()">Pay & Book</button>
+    </div></div>
+  </div>
+</section>
+
+<section id="otp" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><div class="row"><button class="icon-btn" onclick="showPage('checkout')">‹</button><h2>OTP Verify</h2><span></span></div></div>
+  <div class="form">
+    <h2>Enter Security Code</h2>
+    <p style="color:var(--muted);margin:10px 0 16px">Demo code is <b>1234</b></p>
+    <input class="input" id="otpCode" placeholder="Enter OTP">
+    <button class="full-btn" onclick="confirmPayment()">Verify & Confirm</button>
+  </div>
+</section>
+
+<section id="bookings" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">My Bookings</h1><p style="margin-top:8px;opacity:.85">Track all your rented items</p></div>
+  <div class="content" id="bookingList"></div>
+</section>
+
+<section id="favorites" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">Favorites</h1><p style="margin-top:8px;opacity:.85">Saved equipment</p></div>
+  <div class="content" id="favoritesList"></div>
+</section>
+
+<section id="wallet" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">Wallet</h1><p style="margin-top:8px;opacity:.85">Balance and earnings</p></div>
+  <div class="content">
+    <div class="checkout-card"><p>Current Balance</p><h1 style="margin-top:18px" id="walletPageBalance">120 JD</h1></div>
+    <div class="card"><div class="card-body">
+      <button class="full-btn" onclick="addWallet()">Add 25 JD</button>
+      <button class="full-btn" onclick="withdrawWallet()" style="background:#334155">Withdraw 20 JD</button>
+    </div></div>
+  </div>
+</section>
+
+<section id="admin" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">Admin Dashboard</h1><p style="margin-top:8px;opacity:.85">Users · Bookings · Revenue</p></div>
+  <div class="content">
+    <div class="stats">
+      <div><b id="adminUsers">148</b><span>Users</span></div>
+      <div><b id="adminBookings">0</b><span>Bookings</span></div>
+      <div><b id="adminRevenue">0</b><span>Revenue</span></div>
+    </div>
+    <div class="card"><div class="card-body">
+      <h3>Category Demand</h3>
+      <p style="margin-top:12px">Tools</p><div class="chart"><div class="bar" style="width:85%"></div></div>
+      <p style="margin-top:12px">Cameras</p><div class="chart"><div class="bar" style="width:65%"></div></div>
+      <p style="margin-top:12px">Camping</p><div class="chart"><div class="bar" style="width:45%"></div></div>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <button class="full-btn" onclick="approveAll()">Approve All Products</button>
+      <button class="full-btn" onclick="toast('Reports exported')" style="background:#334155">Export Report</button>
+    </div></div>
+  </div>
+</section>
+
+<section id="chat" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><div class="row"><button class="icon-btn" onclick="showPage('details')">‹</button><div><h2>Owner Chat</h2><p style="font-size:12px;opacity:.8" id="typingText">Online now</p></div><span></span></div></div>
+  <div class="chat-box" id="chatBox">
+    <div class="message other">Hello! The item is available for your dates.</div>
+    <div class="message me">Can you deliver it?</div>
+    <div class="message other">Yes, delivery is available inside Amman.</div>
+  </div>
+  <div class="chat-input"><input id="chatInput" placeholder="Type a message..."><button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button></div>
+</section>
+
+<section id="notifications" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">Notifications</h1><p style="margin-top:8px;opacity:.85">Latest updates</p></div>
+  <div class="content" id="notificationsList"></div>
+</section>
+
+<section id="addProduct" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><div class="row"><button class="icon-btn" onclick="showPage('home')">‹</button><h2>Add Product</h2><span></span></div></div>
+  <div class="form">
+    <input class="input" id="newName" placeholder="Product name">
+    <input class="input" id="newCategory" placeholder="Category">
+    <input class="input" id="newPrice" type="number" placeholder="Price per day">
+    <input class="input" id="newImage" placeholder="Image URL">
+    <textarea class="input" id="newDesc" placeholder="Description"></textarea>
+    <button class="full-btn" onclick="addProduct()">Add Product</button>
+  </div>
+</section>
+
+<section id="account" class="page hidden">
+  <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+  <div class="header"><h1 style="font-size:30px">My Profile</h1><p style="margin-top:8px;opacity:.85">Manage your account</p></div>
+  <div class="profile-card">
+    <div class="big-avatar"></div><h2>Ahmed Khaled</h2><p id="profileRole">Verified RentHub Member</p>
+    <div class="stats"><div><b id="bookingCount">0</b><span>Bookings</span></div><div><b>4.9</b><span>Rating</span></div><div><b id="favoriteCount">0</b><span>Saved</span></div></div>
+  </div>
+  <div class="menu">
+    <div class="menu-item" onclick="switchRole()"><span>🔁 Switch Role</span><span id="roleText">Renter</span></div>
+    <div class="menu-item" onclick="showPage('wallet')"><span>👛 Wallet</span><span>›</span></div>
+    <div class="menu-item" onclick="showPage('admin')"><span>📊 Admin Dashboard</span><span>›</span></div>
+    <div class="menu-item" onclick="showPage('favorites')"><span>❤️ Favorites</span><span>›</span></div>
+    <div class="menu-item" onclick="showPage('notifications')"><span>🔔 Notifications</span><span>›</span></div>
+    <div class="menu-item" onclick="showPage('chat')"><span>💬 Chat</span><span>›</span></div>
+    <div class="menu-item" onclick="toggleDarkMode()"><span>🌙 Dark Mode</span><span>›</span></div>
+    <div class="menu-item" onclick="logout()"><span>🚪 Logout</span><span>›</span></div>
+  </div>
+</section>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" id="navHome" onclick="showPage('home')"><i class="fa-solid fa-house"></i>Home</button>
+  <button class="nav-btn" id="navBookings" onclick="showPage('bookings')"><i class="fa-solid fa-box"></i>Bookings</button>
+  <button class="nav-btn" id="navFav" onclick="showPage('favorites')"><i class="fa-solid fa-heart"></i>Saved</button>
+  <button class="nav-btn" id="navAccount" onclick="showPage('account')"><i class="fa-solid fa-user"></i>Account</button>
+</div>
+
+</div>
+
+<script>
+const categoryData=["All","Tools","Cameras","Camping","Construction"];
+let activeCategory="All",selectedProduct=null,discount=0,paymentMethod="Visa",wallet=120,userRole="Renter";
+let bookings=[],favorites=[];
+let notifications=["Welcome to RentHub Ultimate","Your account is verified","AI Search is enabled"];
+
+let productData=[
+{name:"Makita Professional Drill",category:"Tools",price:10,img:"https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=900&q=80",gallery:["https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=900&q=80","https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80"],desc:"Professional cordless drill suitable for repair work, woodworking, and home installations.",booked:["2026-05-25"]},
+{name:"Canon DSLR Camera",category:"Cameras",price:15,img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",gallery:["https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80","https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80"],desc:"High-quality DSLR camera for events, weddings, product photography, and creative content production.",booked:[]},
+{name:"Aluminum Ladder",category:"Construction",price:8,img:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80",gallery:["https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"],desc:"Strong lightweight ladder perfect for painting, maintenance, and construction usage.",booked:[]},
+{name:"Camping Tent",category:"Camping",price:12,img:"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=900&q=80",gallery:["https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=900&q=80"],desc:"Durable waterproof camping tent for outdoor adventures and family trips.",booked:[]},
+{name:"Electric Saw",category:"Tools",price:14,img:"https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=900&q=80",gallery:["https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=900&q=80"],desc:"Powerful electric saw for cutting wood and workshop tasks with professional performance.",booked:[]}
+];
+
+function showPage(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+  document.getElementById(page).classList.remove("hidden");
+  document.querySelectorAll(".nav-btn").forEach(btn=>btn.classList.remove("active"));
+  if(page==="home")navHome.classList.add("active");
+  if(page==="bookings"){navBookings.classList.add("active");renderBookings()}
+  if(page==="favorites"){navFav.classList.add("active");renderFavorites()}
+  if(page==="account"){navAccount.classList.add("active");updateStats()}
+  if(page==="notifications")renderNotifications();
+  if(page==="checkout")updateCheckout();
+  if(page==="wallet")updateWallet();
+  if(page==="admin")renderAdmin();
+}
+
+function renderCategories(){
+  categoriesContainer.innerHTML=categoryData.map(cat=>`
+    <button class="category ${cat===activeCategory?'active':''}" onclick="setCategory('${cat}')">
+      <i class="${getIcon(cat)}"></i><p>${cat}</p>
+    </button>`).join("");
+}
+
+function getIcon(cat){
+  return cat==="Tools"?"fa-solid fa-screwdriver-wrench":cat==="Cameras"?"fa-solid fa-camera":cat==="Camping"?"fa-solid fa-campground":cat==="Construction"?"fa-solid fa-helmet-safety":"fa-solid fa-star";
+}
+
+function setCategory(cat){activeCategory=cat;renderCategories();renderProducts();toast(cat+" selected")}
+function smartSearch(){renderProducts()}
+
+function renderProducts(){
+  const q=searchInput.value.toLowerCase();
+  let aiQuery=q;
+  if(q.includes("wedding")||q.includes("عرس")) aiQuery="camera";
+  if(q.includes("wood")||q.includes("خشب")) aiQuery="saw";
+  if(q.includes("repair")||q.includes("تصليح")) aiQuery="drill";
+
+  const filtered=productData.filter(p=>
+    (activeCategory==="All"||p.category===activeCategory)&&
+    (p.name.toLowerCase().includes(aiQuery)||p.category.toLowerCase().includes(aiQuery)||p.desc.toLowerCase().includes(aiQuery))
+  );
+
+  if(!filtered.length){productsContainer.innerHTML=`<div class="empty">No products found. Try “camera” or “drill”.</div>`;return}
+
+  productsContainer.innerHTML=filtered.map(p=>{
+    const index=productData.indexOf(p);
+    return `<div class="card">
+      <div class="card-img" style="background-image:url('${p.img}')">
+        <div class="badge">${p.category}</div>
+        <button class="favorite" onclick="toggleFavorite(${index})"><i class="${favorites.includes(index)?'fa-solid':'fa-regular'} fa-heart"></i></button>
+      </div>
+      <div class="card-body">
+        <div class="top"><div><h4>${p.name}</h4><p>Available today · Verified owner</p></div><div class="price">${p.price} JD</div></div>
+        <div class="info"><span>⭐ 4.9</span><span>📍 2.3 km</span><span>🛡 Secure</span></div>
+        <div class="actions"><button class="btn btn-view" onclick="openDetails(${index})">View</button><button class="btn btn-book" onclick="quickBook(${index})">Book</button></div>
+      </div>
+    </div>`
+  }).join("");
+}
+
+function openDetails(index){
+  selectedProduct=productData[index];
+  detailImg.style.backgroundImage=`url('${selectedProduct.img}')`;
+  detailName.innerText=selectedProduct.name;
+  detailDesc.innerText=selectedProduct.desc;
+  detailPrice.innerText=selectedProduct.price+" JD / day";
+  detailTotal.innerText=selectedProduct.price*2+" JD";
+  gallery.innerHTML=selectedProduct.gallery.map(img=>`<div class="thumb" onclick="detailImg.style.backgroundImage='url(${img})'" style="background-image:url('${img}')"></div>`).join("");
+  renderSimilar();
+  showPage("details");
+}
+
+function renderSimilar(){
+  const similar=productData.filter(p=>selectedProduct&&p.category===selectedProduct.category&&p.name!==selectedProduct.name).slice(0,2);
+  similarList.innerHTML=similar.length?similar.map(p=>`<div class="box"><span>${p.name}</span><span>${p.price} JD</span></div>`).join(""):`<div class="box"><span>No similar products now</span></div>`;
+}
+
+function quickBook(index){selectedProduct=productData[index];showPage("checkout")}
+function checkAvailability(){
+  if(selectedProduct.booked.includes("2026-05-25")) toast("Selected date is already booked");
+  else toast("Available for selected dates");
+}
+
+function updateCheckout(){
+  if(!selectedProduct)selectedProduct=productData[0];
+  const total=selectedProduct.price*2+5-discount;
+  checkoutTotal.innerText=total+" JD";
+  discountValue.innerText=discount+" JD";
+  walletBalance.innerText=wallet+" JD";
+}
+
+function applyPromo(){
+  if(promoInput.value.trim().toUpperCase()==="RENT10"){discount=10;toast("Promo applied")}
+  else{discount=0;toast("Invalid promo")}
+  updateCheckout();
+}
+
+function selectPayment(el,method){
+  document.querySelectorAll(".payment-option").forEach(p=>p.classList.remove("active"));
+  el.classList.add("active");paymentMethod=method;toast(method+" selected");
+}
+
+function showOtp(){showPage("otp")}
+
+function confirmPayment(){
+  if(otpCode.value!=="1234"){toast("Wrong OTP");return}
+  const total=selectedProduct.price*2+5-discount;
+  if(paymentMethod==="Wallet"&&wallet<total){toast("Insufficient wallet balance");return}
+  if(paymentMethod==="Wallet")wallet-=total;
+  bookings.push({...selectedProduct,total});
+  notifications.unshift("Booking confirmed for "+selectedProduct.name);
+  selectedProduct.booked.push("2026-05-25");
+  otpCode.value="";
+  toast("Payment successful");
+  showPage("bookings");
+}
+
+function toggleFavorite(index){
+  favorites=favorites.includes(index)?favorites.filter(i=>i!==index):[...favorites,index];
+  toast(favorites.includes(index)?"Added to favorites":"Removed from favorites");
+  renderProducts();
+}
+
+function renderBookings(){
+  if(!bookings.length){bookingList.innerHTML=`<div class="empty">No bookings yet.</div>`;return}
+  bookingList.innerHTML=bookings.map((b,index)=>`
+    <div class="card"><div class="card-img" style="background-image:url('${b.img}')"><div class="badge">Confirmed</div></div>
+      <div class="card-body">
+        <div class="top"><div><h4>${b.name}</h4><p>May 25 - May 27 · Approved</p></div><div class="price">${b.total} JD</div></div>
+        <div class="actions"><button class="btn btn-view" onclick="showPage('chat')">Chat</button><button class="btn btn-red" onclick="cancelBooking(${index})">Cancel</button></div>
+      </div>
+    </div>`).join("");
+}
+
+function cancelBooking(index){bookings.splice(index,1);notifications.unshift("Booking cancelled");renderBookings();toast("Booking cancelled")}
+function renderFavorites(){
+  if(!favorites.length){favoritesList.innerHTML=`<div class="empty">No favorites yet.</div>`;return}
+  favoritesList.innerHTML=favorites.map(index=>{
+    const p=productData[index];
+    return `<div class="card"><div class="card-img" style="background-image:url('${p.img}')"><div class="badge">${p.category}</div></div><div class="card-body"><div class="top"><div><h4>${p.name}</h4><p>Saved item</p></div><div class="price">${p.price} JD</div></div><div class="actions"><button class="btn btn-view" onclick="openDetails(${index})">View</button><button class="btn btn-red" onclick="toggleFavorite(${index});renderFavorites()">Remove</button></div></div></div>`
+  }).join("");
+}
+
+function renderNotifications(){
+  notificationsList.innerHTML=notifications.map(n=>`<div class="card"><div class="card-body"><h4>🔔 ${n}</h4><p style="color:var(--muted);margin-top:6px">Just now</p></div></div>`).join("");
+}
+
+function sendMessage(){
+  const text=chatInput.value.trim();if(!text)return;
+  chatBox.innerHTML+=`<div class="message me">${text}</div>`;chatInput.value="";typingText.innerText="Typing...";
+  setTimeout(()=>{chatBox.innerHTML+=`<div class="message other">Thanks! I will reply soon.</div>`;typingText.innerText="Online now";chatBox.scrollTop=chatBox.scrollHeight},700);
+  chatBox.scrollTop=chatBox.scrollHeight;
+}
+
+function addProduct(){
+  const name=newName.value.trim(),category=newCategory.value.trim()||"Tools",price=Number(newPrice.value);
+  const img=newImage.value.trim()||"https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80";
+  const desc=newDesc.value.trim()||"Professional rental equipment available now.";
+  if(!name||!price){toast("Please fill product name and price");return}
+  productData.unshift({name,category,price,img,desc,gallery:[img],booked:[]});
+  if(!categoryData.includes(category))categoryData.push(category);
+  newName.value=newCategory.value=newPrice.value=newImage.value=newDesc.value="";
+  activeCategory="All";renderCategories();renderProducts();toast("Product added");showPage("home");
+}
+
+function exploreNow(){activeCategory="All";searchInput.value="";renderCategories();renderProducts();toast("Showing popular rentals")}
+function simulateRefresh(){productsContainer.innerHTML=`<div class="skeleton"></div><div class="skeleton"></div>`;setTimeout(()=>{renderProducts();toast("Products refreshed")},900)}
+function toggleDarkMode(){document.body.classList.toggle("dark");toast("Theme changed")}
+function finishOnboarding(){onboarding.classList.add("hidden")}
+function switchRole(){userRole=userRole==="Renter"?"Owner":"Renter";roleText.innerText=userRole;roleLabel.innerText=userRole+" Mode";profileRole.innerText=userRole==="Owner"?"Equipment Owner":"Verified RentHub Member";toast("Switched to "+userRole)}
+function updateStats(){bookingCount.innerText=bookings.length;favoriteCount.innerText=favorites.length;roleText.innerText=userRole}
+function updateWallet(){walletPageBalance.innerText=wallet+" JD"}
+function addWallet(){wallet+=25;updateWallet();toast("25 JD added")}
+function withdrawWallet(){wallet=Math.max(0,wallet-20);updateWallet();toast("20 JD withdrawn")}
+function renderAdmin(){adminBookings.innerText=bookings.length;adminRevenue.innerText=bookings.reduce((s,b)=>s+b.total,0)+" JD"}
+function approveAll(){toast("All products approved")}
+function logout(){bookings=[];favorites=[];notifications.unshift("Logged out successfully");toast("Logged out");showPage("home")}
+function toast(message){const t=document.getElementById("toast");t.innerText=message;t.style.display="block";setTimeout(()=>t.style.display="none",1800)}
+
+window.onload=()=>{
+  renderCategories();renderProducts();showPage("home");
+  setTimeout(()=>{splash.classList.add("hidden");onboarding.classList.remove("hidden")},1200);
+}
+</script>
+</body>
+</html>
