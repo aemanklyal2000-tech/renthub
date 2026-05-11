@@ -1,0 +1,14 @@
+workflows:
+  ios-workflow:
+    name: iOS Workflow
+    environment:
+      xcode: latest
+    scripts:
+      - name: Build iOS app
+        script: |
+          xcodebuild build \
+            -project RentHub.xcodeproj \
+            -scheme RentHub \
+            -sdk iphonesimulator
+    artifacts:
+      - build/**/Build/**/*.app
